@@ -1,58 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import React, { useEffect } from 'react';
+
+import {  Provider, useDispatch, useSelector } from 'react-redux';
+
+import store from './store';
+
+import Imessage from './Component/Imessage';
+
+import Login from './Component/Login';
+
+import { auth } from './firebase';
+
+import {login, logout} from './REDUX/ACTION/userAction';
+
+//Import CSS File
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+
+    const user =  useSelector( (state) => state.users.userX );
+
+    console.log(user);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        
+        auth.onAuthStateChanged( authUser =>{
+            if(authUser){
+                // user is Login
+                dispatch(login({
+                    uid:authUser.uid,
+                    photo:authUser.photoURL,
+                    email:authUser.email,
+                    displayName:authUser.displayName
+                }))
+            }else{
+                // user is Logout
+                dispatch(logout())
+            }
+        } )
+
+    }, []);
+
+
+    return (
+        
+        <div className="app">
+    
+            { user ? (<Imessage />) : ( <Login /> )}
+        
+        </div>
+
+        // <Imessage/>
+
+    )
 }
 
-export default App;
+export default App

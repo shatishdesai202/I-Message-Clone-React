@@ -1,0 +1,40 @@
+.sidebar{
+    flex: 0.20;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    border-right: 1px solid darkgrey;
+}
+
+.sidebar__header{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 50px;
+}
+
+.sidebar__avatar{
+    cursor: pointer;
+    margin: 10px;
+}
+
+.sidebar__input{
+    display: flex;
+    color: grey;
+    background-color: rgb(187, 231, 231);
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.sidebar__input > input {
+    border: none;
+    outline-width: 0;
+    background: transparent;
+}
+
+.sidebar__chats{
+    overflow-y: auto;
+}
